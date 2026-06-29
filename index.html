@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Atléticas — O app que conecta estudantes aos melhores eventos universitários. Compre ingressos, descubra festas, campeonatos e muito mais." />
+  <meta property="og:title" content="Atléticas — Eventos Universitários" />
+  <meta property="og:description" content="Conecte-se aos melhores eventos universitários da sua região." />
+  <title>Atléticas — Eventos Universitários</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── RESET & TOKENS ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:          #0B0B0B;
+      --bg-raised:   #141414;
+      --bg-card:     #1A1A1A;
+      --accent:      #E10000;
+      --accent-dark: #B80000;
+      --text:        #FFFFFF;
+      --text-sub:    #C8C8C8;
+      --text-muted:  #707070;
+      --border:      #252525;
+      --font-d: 'Barlow Condensed', sans-serif;
+      --font-b: 'Inter', sans-serif;
+      --r: 14px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-b);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 40px;
+      background: rgba(11,11,11,0.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    nav img { height: 28px; opacity: 0.9; }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 32px;
+    }
+
+    nav ul a {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+      transition: color .2s;
+      letter-spacing: .04em;
+    }
+
+    nav ul a:hover { color: var(--text); }
+
+    .nav-cta {
+      background: var(--accent);
+      color: #fff !important;
+      padding: 9px 20px;
+      border-radius: 8px;
+      font-size: 13px !important;
+      font-weight: 600 !important;
+      letter-spacing: .04em;
+      transition: background .2s, transform .15s !important;
+    }
+
+    .nav-cta:hover { background: var(--accent-dark) !important; transform: translateY(-1px); }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 140px 24px 100px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Assinatura visual: glow pulsante vermelho atrás da logo */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 45% at 50% 42%,
+          rgba(225,0,0,.28) 0%,
+          rgba(225,0,0,.06) 45%,
+          transparent 68%);
+      animation: glow-pulse 5s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes glow-pulse {
+      0%, 100% { opacity: .65; transform: scale(1); }
+      50%       { opacity: 1;   transform: scale(1.06); }
+    }
+
+    /* Subtle grid texture */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.015) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+    }
+
+    .hero-logo {
+      width: min(380px, 74vw);
+      position: relative;
+      z-index: 2;
+      margin-bottom: 44px;
+      filter: drop-shadow(0 0 48px rgba(225,0,0,.45));
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-8px); }
+    }
+
+    .hero-tagline {
+      font-family: var(--font-d);
+      font-size: clamp(44px, 9vw, 88px);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .025em;
+      line-height: 1;
+      position: relative;
+      z-index: 2;
+      margin-bottom: 22px;
+    }
+
+    .hero-tagline em {
+      font-style: normal;
+      color: var(--accent);
+    }
+
+    .hero-sub {
+      font-size: clamp(16px, 2.4vw, 19px);
+      color: var(--text-sub);
+      max-width: 540px;
+      position: relative;
+      z-index: 2;
+      margin-bottom: 52px;
+    }
+
+    .hero-badges {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 2;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 26px;
+      border-radius: 12px;
+      font-family: var(--font-b);
+      font-weight: 600;
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    .badge:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,.5); }
+
+    .badge-apple {
+      background: #fff;
+      color: #000;
+    }
+
+    .badge-label { display: flex; flex-direction: column; line-height: 1.2; }
+    .badge-label small { font-size: 11px; font-weight: 400; opacity: .7; }
+    .badge-label strong { font-size: 17px; font-weight: 700; }
+
+    .badge-android {
+      background: var(--bg-card);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    /* ─── DIVIDERS ─── */
+    hr.div {
+      border: none;
+      border-top: 1px solid var(--border);
+      max-width: 1140px;
+      margin: 0 auto;
+    }
+
+    /* ─── SECTION SHELL ─── */
+    section { padding: 100px 24px; }
+
+    .wrap { max-width: 1100px; margin: 0 auto; }
+
+    .eyebrow {
+      font-family: var(--font-d);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+    }
+
+    .sec-title {
+      font-family: var(--font-d);
+      font-size: clamp(34px, 5.5vw, 60px);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .025em;
+      line-height: 1.05;
+      margin-bottom: 16px;
+    }
+
+    .sec-sub {
+      font-size: 16px;
+      color: var(--text-sub);
+      max-width: 520px;
+      line-height: 1.75;
+    }
+
+    /* ─── FEATURES ─── */
+    .features-bg { background: var(--bg-raised); }
+
+    .f-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      margin-top: 64px;
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      overflow: hidden;
+    }
+
+    .f-card {
+      padding: 40px 36px;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      transition: background .2s;
+      background: var(--bg);
+    }
+
+    .f-card:nth-child(3n)   { border-right: none; }
+    .f-card:nth-child(4),
+    .f-card:nth-child(5),
+    .f-card:nth-child(6)    { border-bottom: none; }
+
+    .f-card:hover { background: var(--bg-card); }
+
+    .f-icon { font-size: 34px; margin-bottom: 18px; display: block; }
+
+    .f-title {
+      font-family: var(--font-d);
+      font-size: 20px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      margin-bottom: 8px;
+    }
+
+    .f-desc { font-size: 14px; color: var(--text-muted); line-height: 1.75; }
+
+    /* ─── ABOUT / MARKETING ─── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+      margin-top: 64px;
+    }
+
+    .about-body p {
+      font-size: 16px;
+      color: var(--text-sub);
+      line-height: 1.85;
+      margin-bottom: 18px;
+    }
+
+    .about-body p:last-child { color: var(--text); font-weight: 600; }
+
+    .about-quote {
+      border-left: 4px solid var(--accent);
+      padding-left: 32px;
+    }
+
+    .about-quote blockquote {
+      font-family: var(--font-d);
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 900;
+      text-transform: uppercase;
+      line-height: 1.1;
+      color: var(--text);
+    }
+
+    .about-quote blockquote span { color: var(--accent); }
+
+    .about-quote cite {
+      display: block;
+      margin-top: 28px;
+      font-style: normal;
+      font-size: 13px;
+      color: var(--text-muted);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    /* Pill tags */
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 32px;
+    }
+
+    .tag {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 100px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+
+    /* ─── SUPPORT ─── */
+    .support-bg { background: var(--bg-raised); }
+
+    .support-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 64px 48px;
+      text-align: center;
+      margin-top: 52px;
+      max-width: 640px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .support-icon { font-size: 44px; margin-bottom: 20px; }
+
+    .support-card h3 {
+      font-family: var(--font-d);
+      font-size: 30px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      margin-bottom: 12px;
+    }
+
+    .support-card p { font-size: 15px; color: var(--text-muted); margin-bottom: 32px; }
+
+    .btn-email {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      padding: 15px 36px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 15px;
+      letter-spacing: .02em;
+      transition: background .2s, transform .15s;
+    }
+
+    .btn-email:hover { background: var(--accent-dark); transform: translateY(-2px); }
+
+    /* ─── PRIVACY ─── */
+    .privacy-box {
+      background: var(--bg-raised);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 52px;
+      margin-top: 52px;
+    }
+
+    .privacy-box h3 {
+      font-family: var(--font-d);
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 32px 0 10px;
+    }
+
+    .privacy-box h3:first-child { margin-top: 0; }
+
+    .privacy-box p,
+    .privacy-box li {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.85;
+    }
+
+    .privacy-box ul { padding-left: 20px; margin: 6px 0; }
+    .privacy-box a { color: var(--accent); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 48px 24px;
+      text-align: center;
+    }
+
+    footer img { height: 24px; opacity: .45; margin-bottom: 18px; }
+
+    footer p { font-size: 13px; color: var(--text-muted); line-height: 2; }
+
+    footer a { color: var(--accent); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      nav ul { display: none; }
+      .f-grid { grid-template-columns: 1fr 1fr; }
+      .f-card:nth-child(3n)  { border-right: 1px solid var(--border); }
+      .f-card:nth-child(2n)  { border-right: none; }
+      .f-card:nth-child(4),
+      .f-card:nth-child(5),
+      .f-card:nth-child(6)   { border-bottom: 1px solid var(--border); }
+      .f-card:nth-child(5),
+      .f-card:nth-child(6)   { border-bottom: none; }
+      .about-grid { grid-template-columns: 1fr; gap: 48px; }
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 16px 20px; }
+      section { padding: 72px 20px; }
+      .f-grid { grid-template-columns: 1fr; }
+      .f-card { border-right: none !important; border-bottom: 1px solid var(--border) !important; }
+      .f-card:last-child { border-bottom: none !important; }
+      .support-card { padding: 40px 24px; }
+      .privacy-box { padding: 32px 22px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero::before, .hero-logo { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── NAVIGATION ─── -->
+  <nav>
+    <img src="splash.png" alt="Atléticas" />
+    <ul>
+      <li><a href="#recursos">Recursos</a></li>
+      <li><a href="#sobre">Sobre</a></li>
+      <li><a href="#suporte">Suporte</a></li>
+      <li><a href="#privacidade">Privacidade</a></li>
+      <li><a href="#suporte" class="nav-cta">Contato</a></li>
+    </ul>
+  </nav>
+
+  <!-- ─── HERO ─── -->
+  <section class="hero" id="inicio">
+    <img src="splash.png" alt="Atléticas" class="hero-logo" />
+
+    <h1 class="hero-tagline">
+      Seus eventos<br /><em>universitários</em><br />em um app
+    </h1>
+
+    <p class="hero-sub">
+      Conecte-se às festas, campeonatos e eventos das atléticas da sua região.
+      Do ingresso à entrada, tudo em um só lugar.
+    </p>
+
+    <div class="hero-badges">
+      <a href="#" class="badge badge-apple" aria-label="Baixar na App Store">
+        <svg width="24" height="29" viewBox="0 0 24 29" fill="none" aria-hidden="true">
+          <path d="M19.55 15.28c-.03-3.4 2.78-5.04 2.9-5.12-1.58-2.31-4.04-2.63-4.91-2.66-2.1-.21-4.1 1.24-5.16 1.24-1.07 0-2.72-1.21-4.47-1.18-2.3.04-4.43 1.34-5.62 3.39C-.83 14.9.94 21.3 3.3 24.79c1.17 1.69 2.56 3.57 4.37 3.51 1.76-.07 2.42-1.13 4.55-1.13 2.11 0 2.72 1.13 4.57 1.1 1.9-.04 3.09-1.71 4.24-3.41a16.4 16.4 0 0 0 1.93-3.95c-.05-.02-3.7-1.42-3.73-5.63z" fill="currentColor"/>
+          <path d="M16.45 5.35c.97-1.18 1.62-2.8 1.44-4.43-1.39.06-3.1.93-4.1 2.08-.9 1.04-1.69 2.72-1.48 4.33 1.56.12 3.14-.79 4.14-1.98z" fill="currentColor"/>
+        </svg>
+        <span class="badge-label">
+          <small>Disponível na</small>
+          <strong>App Store</strong>
+        </span>
+      </a>
+      <a href="#sobre" class="badge badge-android">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>
+        </svg>
+        <span class="badge-label">
+          <small>Saiba mais sobre o</small>
+          <strong>Aplicativo</strong>
+        </span>
+      </a>
+    </div>
+  </section>
+
+  <hr class="div" />
+
+  <!-- ─── FEATURES ─── -->
+  <section class="features-bg" id="recursos">
+    <div class="wrap">
+      <p class="eyebrow">Recursos</p>
+      <h2 class="sec-title">Tudo que você precisa,<br />no bolso</h2>
+      <p class="sec-sub">Uma plataforma completa para viver o melhor da vida universitária sem perder nenhum evento.</p>
+
+      <div class="f-grid">
+        <div class="f-card">
+          <span class="f-icon">🎟️</span>
+          <h3 class="f-title">Compra de Ingressos</h3>
+          <p class="f-desc">Compre ingressos de forma rápida e segura, diretamente pelo app — sem filas, sem complicação.</p>
+        </div>
+        <div class="f-card">
+          <span class="f-icon">📱</span>
+          <h3 class="f-title">Ingresso Digital</h3>
+          <p class="f-desc">Acesse seus ingressos diretamente pelo aplicativo. Sem papel, sem impressão, sem perder nada.</p>
+        </div>
+        <div class="f-card">
+          <span class="f-icon">📍</span>
+          <h3 class="f-title">Eventos Próximos</h3>
+          <p class="f-desc">Descubra eventos perto de você e fique por dentro das melhores festas universitárias da região.</p>
+        </div>
+        <div class="f-card">
+          <span class="f-icon">🗓️</span>
+          <h3 class="f-title">Informações Atualizadas</h3>
+          <p class="f-desc">Receba datas, horários e locais sempre atualizados sobre os eventos que você quer participar.</p>
+        </div>
+        <div class="f-card">
+          <span class="f-icon">⚡</span>
+          <h3 class="f-title">Processo Simples</h3>
+          <p class="f-desc">Interface intuitiva e processo de compra descomplicado. Da descoberta ao ingresso em poucos toques.</p>
+        </div>
+        <div class="f-card">
+          <span class="f-icon">🏆</span>
+          <h3 class="f-title">Todos os Eventos</h3>
+          <p class="f-desc">Festas, open bars, campeonatos, churrascos e recepções de calouros — tudo em uma única plataforma.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="div" />
+
+  <!-- ─── ABOUT / MARKETING ─── -->
+  <section id="sobre">
+    <div class="wrap">
+      <p class="eyebrow">Sobre o App</p>
+      <h2 class="sec-title">Para quem vive<br />a vida universitária</h2>
+
+      <div class="about-grid">
+        <div class="about-body">
+          <p>
+            Atléticas é o aplicativo que conecta estudantes aos principais eventos universitários da sua região.
+          </p>
+          <p>
+            Encontre festas, open bars, campeonatos, churrascos, recepções de calouros e outros eventos organizados pelas atléticas — tudo em uma única plataforma.
+          </p>
+          <p>
+            Seja para curtir uma festa, participar de um campeonato ou acompanhar os eventos da sua atlética, o Atléticas facilita toda a experiência, desde a descoberta do evento até a entrada.
+          </p>
+          <p>
+            Baixe agora e nunca mais perca os melhores eventos universitários.
+          </p>
+
+          <div class="tags">
+            <span class="tag">Festas</span>
+            <span class="tag">Open Bar</span>
+            <span class="tag">Campeonatos</span>
+            <span class="tag">Churrasco</span>
+            <span class="tag">Calourada</span>
+            <span class="tag">Eventos Universitários</span>
+          </div>
+        </div>
+
+        <div class="about-quote">
+          <blockquote>
+            "Da descoberta<br />do evento<br />até a<br /><span>entrada."</span>
+          </blockquote>
+          <cite>— Atléticas App</cite>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="div" />
+
+  <!-- ─── SUPPORT ─── -->
+  <section class="support-bg" id="suporte">
+    <div class="wrap">
+      <p class="eyebrow">Suporte</p>
+      <h2 class="sec-title">Precisa de ajuda?</h2>
+      <p class="sec-sub">Nossa equipe está disponível para responder dúvidas sobre compras, ingressos e funcionalidades do app.</p>
+
+      <div class="support-card">
+        <div class="support-icon">✉️</div>
+        <h3>Fale com a gente</h3>
+        <p>
+          Tem alguma dúvida ou problema? Entre em contato por e-mail e retornaremos o mais rápido possível.
+        </p>
+        <a class="btn-email" href="mailto:luiscqueirozsilva@gmail.com">
+          luiscqueirozsilva@gmail.com
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <hr class="div" />
+
+  <!-- ─── PRIVACY POLICY ─── -->
+  <section id="privacidade">
+    <div class="wrap">
+      <p class="eyebrow">Legal</p>
+      <h2 class="sec-title">Política de<br />Privacidade</h2>
+      <p class="sec-sub">Transparência sobre como coletamos e usamos seus dados.</p>
+
+      <div class="privacy-box">
+        <p>Última atualização: junho de 2026</p>
+
+        <h3>1. Dados Coletados</h3>
+        <p>O aplicativo Atléticas coleta as seguintes informações para proporcionar uma experiência personalizada e segura:</p>
+        <ul>
+          <li>Dados de cadastro: nome, e-mail e informações de conta</li>
+          <li>Dados de uso: interações com o app e eventos consultados</li>
+          <li>Dados de compra: histórico de ingressos adquiridos</li>
+        </ul>
+
+        <h3>2. Uso das Informações</h3>
+        <p>Utilizamos seus dados para:</p>
+        <ul>
+          <li>Processar a compra e entrega de ingressos digitais</li>
+          <li>Exibir eventos relevantes para você</li>
+          <li>Enviar notificações sobre eventos de interesse</li>
+          <li>Garantir a segurança da sua conta</li>
+        </ul>
+
+        <h3>3. Compartilhamento de Dados</h3>
+        <p>Não vendemos seus dados pessoais a terceiros. Podemos compartilhar informações com organizadores de eventos exclusivamente para validação de ingressos no acesso aos eventos.</p>
+
+        <h3>4. Segurança</h3>
+        <p>Seus dados são protegidos com criptografia e armazenados em servidores seguros via Firebase / Google Cloud. Adotamos as melhores práticas de segurança da informação para proteger suas informações.</p>
+
+        <h3>5. Seus Direitos</h3>
+        <p>Você pode solicitar a exclusão dos seus dados ou obter informações sobre o uso deles a qualquer momento, entrando em contato pelo e-mail: <a href="mailto:luiscqueirozsilva@gmail.com">luiscqueirozsilva@gmail.com</a></p>
+
+        <h3>6. Alterações nesta Política</h3>
+        <p>Esta política pode ser atualizada periodicamente. Notificaremos os usuários sobre mudanças relevantes via e-mail ou notificação no aplicativo.</p>
+
+        <h3>7. Contato</h3>
+        <p>Para questões relacionadas à privacidade, envie um e-mail para: <a href="mailto:luiscqueirozsilva@gmail.com">luiscqueirozsilva@gmail.com</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ─── -->
+  <footer>
+    <img src="splash.png" alt="Atléticas" />
+    <p>© 2026 Atléticas. Todos os direitos reservados.</p>
+    <p>
+      <a href="#suporte">Suporte</a>
+      &nbsp;·&nbsp;
+      <a href="#privacidade">Política de Privacidade</a>
+      &nbsp;·&nbsp;
+      <a href="#sobre">Sobre</a>
+    </p>
+  </footer>
+
+</body>
+</html>
