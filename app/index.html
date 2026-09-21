@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Baixar Atléticas</title>
+
+  <script>
+    function redirectToStore() {
+      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+      // Android
+      if (/android/i.test(userAgent)) {
+        window.location.replace(
+          'https://play.google.com/store/apps/details?id=com.atleticas.app'
+        );
+        return;
+      }
+
+      // iPhone / iPad / iPod
+      if (/iPhone|iPad|iPod/i.test(userAgent)) {
+        window.location.replace(
+          'https://apps.apple.com/app/atl%C3%A9ticas/id6785540429'
+        );
+        return;
+      }
+
+      // Computador ou dispositivo desconhecido
+      document.getElementById('loading').innerHTML = `
+        <h1>Baixe o Atléticas</h1>
+        <p>Escolha sua plataforma:</p>
+
+        <div class="buttons">
+          <a href="https://apps.apple.com/app/atl%C3%A9ticas/id6785540429">
+            App Store
+          </a>
+
+          <a href="https://play.google.com/store/apps/details?id=com.atleticas.app">
+            Google Play
+          </a>
+        </div>
+      `;
+    }
+
+    window.onload = redirectToStore;
+  </script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0B0B0B;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 24px;
+    }
+
+    .container {
+      max-width: 400px;
+    }
+
+    h1 {
+      margin-bottom: 12px;
+    }
+
+    p {
+      color: #aaa;
+      margin-bottom: 30px;
+    }
+
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    a {
+      display: block;
+      padding: 15px 25px;
+      border-radius: 10px;
+      background: #E10000;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container" id="loading">
+    <h1>Redirecionando...</h1>
+    <p>Aguarde enquanto identificamos seu dispositivo.</p>
+  </div>
+
+</body>
+</html>
